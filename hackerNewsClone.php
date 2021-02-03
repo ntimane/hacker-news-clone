@@ -1,6 +1,6 @@
 <?php
     //database connection file
-    require_once "database.php";
+    require('database.php');
     //turn off error reporting/warnings/notices
     error_reporting(0);
 class hackerNewsClone
@@ -23,12 +23,10 @@ class hackerNewsClone
     //echo $output;
 
     //split data using explode function
+    //remove any characters in the response
     $top = explode(",", $output);
     $top = preg_replace('/[^A-Za-z0-9\-]/', '', $top);
 
-
-       //call previous call 
-       $x=0;
     foreach($top as $item => $value)
     {
         //counter
@@ -39,7 +37,8 @@ class hackerNewsClone
         $resp = curl_exec($curl);
         $resp = json_decode($resp, true);
 
-
+        
+        //declare and store endpoints
         $type = $resp["type"];
         $time = $resp["time"];
         $author = $resp["by"];
@@ -65,17 +64,18 @@ class hackerNewsClone
 
         //store in database
         //insert records into database
-        $sql = "INSERT INTO $db.news(type, author, time, url, score, title, descendants) 
-        VALUES ($type, $author, \"$time\", \"$site_url\", $score, \"$title\", \"$comments\")";
+        $sql = "INSERT INTO news(author, time, url, score, title, descendants) 
+        VALUES (\"$author\", \"$time\", \"$site_url\", \"$score\", \"$title\", \"$comments\")";
        
-       /* if (mysqli_query($conn, $sql)) 
+       //verify insert
+        if (mysqli_query($conn, $sql)) 
         {
-            echo "New record created successfully";
+            "New record created successfully";
         } 
         else 
         {
-            echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-        }*/
+            "Error: " . $sql . "<br>" . mysqli_error($conn);
+        }
 
     }
 

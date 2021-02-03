@@ -6,8 +6,12 @@
         $dbpass = "";
         $db = "hacker_news_db";
         $conn = mysqli_connect($dbhost, $dbuser, $dbpass, $db);
+        //debug - test db connection
         if (!$conn) {
             die('Could not connect: ' . mysqli_error());
+        }
+        else{
+             "Connected Successfully";
         }
 
 ?>
