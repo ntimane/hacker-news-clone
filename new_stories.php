@@ -1,6 +1,7 @@
 <?php
+error_reporting(0);
 //include template file
-include "index.html";
+include "views/index.html";
 $curl = curl_init();
  
     $url = "https://hacker-news.firebaseio.com/v0/newstories.json?print=pretty";
@@ -31,10 +32,12 @@ $curl = curl_init();
         $resp = curl_exec($curl);
         $resp = json_decode($resp, true);
 
-        print_r($x.". ".$resp["title"]."(".$resp['url'].")<br>");
-        echo '<span class="small" id="small">' ."by " . $resp["by"]." ". '</span>';
-        echo '<span class="small" id="small">' . $resp["score"]." points" . '</span>';
-        echo "<br>";
+      //display/print to table
+      echo("<tr><td>".$x.". ".$resp["title"]."(<a href='$site_url'>".$resp['url'].")</td></tr>");
+      echo '<tr><td><span class="small" id="small">' . $resp["score"]. " points |" . '</span>';
+      echo '<span class="small" id="small">' ." by " . $resp["by"]." ". '</span>';
+      echo '<span class="small" id="small">' ." " . $final_time ." |". '</span>';
+      echo '<span class="small" id="small">' . $resp["descendants"]." comments" . '</span></td></tr>';
 
     }
    
